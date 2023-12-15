@@ -3,6 +3,8 @@ use std::{future::Future, time::Duration};
 
 #[cfg(feature = "database")]
 pub mod database;
+#[cfg(feature = "dynamodb")]
+pub mod dynamodb;
 #[cfg(feature = "memory")]
 pub mod memory;
 pub mod null;
@@ -11,6 +13,8 @@ pub mod redis;
 
 #[cfg(feature = "database")]
 pub use database::DatabaseDriver;
+#[cfg(feature = "dynamodb")]
+pub use dynamodb::DynamoDBDriver;
 #[cfg(feature = "memory")]
 pub use memory::MemoryDriver;
 pub use null::NullDriver;
