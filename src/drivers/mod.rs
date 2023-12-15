@@ -6,18 +6,23 @@ pub mod database;
 #[cfg(feature = "memory")]
 pub mod memory;
 pub mod null;
+#[cfg(feature = "redis")]
+pub mod redis;
 
 #[cfg(feature = "database")]
 pub use database::DatabaseDriver;
 #[cfg(feature = "memory")]
 pub use memory::MemoryDriver;
 pub use null::NullDriver;
+#[cfg(feature = "redis")]
+pub use redis::RedisDriver;
 
 /// Cache driver.
 pub trait Driver: Sized + Send + Sync {
 	type Error: Send;
+	type Config: Send;
 
-	fn new() -> impl Future<Output = Result<Self, Self::Error>> + Send;
+	fn new(config: Self::Config) -> impl Future<Output = Result<Self, Self::Error>> + Send;
 
 	/// Get a value from the cache.
 	fn get<T: DeserializeOwned>(

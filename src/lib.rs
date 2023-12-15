@@ -19,9 +19,9 @@ impl<D: Driver> Cache<D> {
 	/// # Errors
 	///
 	/// Returns an error if the driver fails to initialize.
-	pub async fn new() -> Result<Self, D::Error> {
+	pub async fn new(config: D::Config) -> Result<Self, D::Error> {
 		Ok(Self {
-			driver: D::new().await?,
+			driver: D::new(config).await?,
 		})
 	}
 

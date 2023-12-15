@@ -2,7 +2,7 @@
 name = "amnesia"
 edition = "2021"
 license = "MIT"
-version = "0.1.2"
+version = "0.1.3"
 readme = "README.md"
 repository = "https://github.com/m1guelpf/amnesia"
 authors = ["Miguel Piedrafita <rust@miguel.build>"]
@@ -14,6 +14,7 @@ thiserror = "1.0.50"
 serde_json = { version = "1.0.108", optional = true }
 ensemble = { version = "0.0.5", default-features = false, optional = true }
 bitcode = { version = "0.5.0", optional = true, default-features = false, features = ["serde"] }
+redis = { version = "0.24.0", default-features = false, features = ["tokio-comp", "aio"], optional = true }
 
 [dev-dependencies]
 ensemble = { version = "0.0.5", features = ["mysql"] }
@@ -22,7 +23,8 @@ tokio = { version = "1.35.0", features = ["macros", "rt-multi-thread"] }
 [features]
 default = ["memory"]
 memory = ["dep:bitcode"]
+redis = ["dep:redis", "dep:bitcode"]
 database = ["dep:ensemble", "dep:serde_json"]
 
 [package.metadata.docs.rs]
-features = ["memory", "database"]
+features = ["memory", "database", "redis"]

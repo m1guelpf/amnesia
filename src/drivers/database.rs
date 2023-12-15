@@ -17,9 +17,10 @@ struct CacheEntry {
 pub struct DatabaseDriver;
 
 impl Driver for DatabaseDriver {
+	type Config = ();
 	type Error = Error;
 
-	async fn new() -> Result<Self, Self::Error> {
+	async fn new((): Self::Config) -> Result<Self, Self::Error> {
 		Ok(Self)
 	}
 
@@ -110,7 +111,7 @@ mod tests {
 	async fn test_database_driver() {
 		ensemble::setup(&env::var("DATABASE_URL").expect("DATABASE_URL not set")).unwrap();
 
-		let mut cache = Cache::<DatabaseDriver>::new().await.unwrap();
+		let mut cache = Cache::<DatabaseDriver>::new(()).await.unwrap();
 
 		assert_eq!(cache.get::<String>("foo").await.unwrap(), None);
 		assert!(!cache.has("foo").await.unwrap());
