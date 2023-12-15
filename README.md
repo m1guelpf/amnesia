@@ -2,11 +2,11 @@
 
 ## Features
 
-- **Driver-Based Architecture**: Easily switch between different caching strategies by using drivers.
+- **Extensible**: Implement your own cache drivers to extend functionality.
 - **Asynchronous API**: Built with async/await for non-blocking I/O operations.
 - **Serialization**: Leverage Serde for serializing and deserializing cache values.
 - **Time-to-Live (TTL)**: Set expiration times for cache entries to ensure stale data is not served.
-- **Extensible**: Implement your own cache drivers to extend functionality.
+- **Driver-Based Architecture**: Easily switch between different caching strategies by using drivers.
 
 ## Usage
 
