@@ -29,7 +29,7 @@ impl Default for Config {
 }
 
 #[allow(clippy::module_name_repetitions)]
-/// A driver that uses Redis.
+/// A driver that uses DynamoDB as a backend.
 pub struct DynamoDBDriver {
 	table: String,
 	prefix: String,
