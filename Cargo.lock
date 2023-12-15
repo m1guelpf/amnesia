@@ -374,8 +374,9 @@ checksum = "a26ae43d7bcc3b814de94796a5e736d4029efb0ee900c12e2d54c993ad1a1e07"
 
 [[package]]
 name = "ensemble"
-version = "0.0.3"
-source = "git+https://github.com/m1guelpf/ensemble#267f5860bd9bc407718b5dfa71c2ffbc0cc3a858"
+version = "0.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "01c5044a4a91be9585d3bb49ed9079de0223e95d86d1724e0bada44854b8e993"
 dependencies = [
  "Inflector",
  "async-trait",
@@ -399,7 +400,8 @@ dependencies = [
 [[package]]
 name = "ensemble_derive"
 version = "0.0.3"
-source = "git+https://github.com/m1guelpf/ensemble#267f5860bd9bc407718b5dfa71c2ffbc0cc3a858"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "64a81ef3f125733be81753dc23fe2067c7135b95e8c4870e168ebd997725fd83"
 dependencies = [
  "Inflector",
  "deluxe",
