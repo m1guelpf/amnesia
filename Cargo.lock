@@ -67,7 +67,7 @@ checksum = "0942ffc6dcaadf03badf6e6a2d0228460359d5e34b57ccdc720b7382dfbd5ec5"
 
 [[package]]
 name = "amnesia"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "bitcode",
  "ensemble",
@@ -374,9 +374,9 @@ checksum = "a26ae43d7bcc3b814de94796a5e736d4029efb0ee900c12e2d54c993ad1a1e07"
 
 [[package]]
 name = "ensemble"
-version = "0.0.4"
+version = "0.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01c5044a4a91be9585d3bb49ed9079de0223e95d86d1724e0bada44854b8e993"
+checksum = "e46b673b4b2c6c71078a89f5eb5a57de359591b1b83184debca9143656eeed7b"
 dependencies = [
  "Inflector",
  "async-trait",
@@ -399,9 +399,9 @@ dependencies = [
 
 [[package]]
 name = "ensemble_derive"
-version = "0.0.3"
+version = "0.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "64a81ef3f125733be81753dc23fe2067c7135b95e8c4870e168ebd997725fd83"
+checksum = "1fe3d62b1e5a883c400592c0106b12de886b07949217bc7236e072613bfa20b7"
 dependencies = [
  "Inflector",
  "deluxe",
