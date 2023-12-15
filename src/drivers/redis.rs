@@ -4,12 +4,23 @@ use serde::{de::DeserializeOwned, Serialize};
 use std::time::Duration;
 
 pub struct Config {
+	pub prefix: String,
 	pub redis_url: String,
+}
+
+impl Default for Config {
+	fn default() -> Self {
+		Self {
+			prefix: String::new(),
+			redis_url: "redis://localhost".to_string(),
+		}
+	}
 }
 
 #[allow(clippy::module_name_repetitions)]
 /// A driver that uses Redis.
 pub struct RedisDriver {
+	prefix: String,
 	client: redis::Client,
 }
 
@@ -19,6 +30,7 @@ impl Driver for RedisDriver {
 
 	async fn new(config: Self::Config) -> Result<Self, Self::Error> {
 		Ok(Self {
+			prefix: config.prefix,
 			client: redis::Client::open(config.redis_url)?,
 		})
 	}
@@ -26,7 +38,10 @@ impl Driver for RedisDriver {
 	async fn get<T: DeserializeOwned>(&self, key: &str) -> Result<Option<T>, Self::Error> {
 		let mut conn = self.client.get_async_connection().await?;
 
-		let Some(data) = conn.get::<_, Option<Vec<u8>>>(key).await? else {
+		let Some(data) = conn
+			.get::<_, Option<Vec<u8>>>(format!("{}{key}", self.prefix))
+			.await?
+		else {
 			return Ok(None);
 		};
 
@@ -36,7 +51,7 @@ impl Driver for RedisDriver {
 	async fn has(&self, key: &str) -> Result<bool, Self::Error> {
 		let mut conn = self.client.get_async_connection().await?;
 
-		Ok(conn.exists(key).await?)
+		Ok(conn.exists(format!("{}{key}", self.prefix)).await?)
 	}
 
 	async fn put<T: Serialize + Sync>(
@@ -49,9 +64,10 @@ impl Driver for RedisDriver {
 		let data = bitcode::serialize(value)?;
 
 		if let Some(expiry) = expiry {
-			conn.set_ex(key, data, expiry.as_secs()).await?;
+			conn.set_ex(format!("{}{key}", self.prefix), data, expiry.as_secs())
+				.await?;
 		} else {
-			conn.set(key, data).await?;
+			conn.set(format!("{}{key}", self.prefix), data).await?;
 		}
 
 		Ok(())
@@ -59,7 +75,7 @@ impl Driver for RedisDriver {
 
 	async fn forget(&mut self, key: &str) -> Result<(), Self::Error> {
 		let mut conn = self.client.get_async_connection().await?;
-		conn.del(key).await?;
+		conn.del(format!("{}{key}", self.prefix)).await?;
 
 		Ok(())
 	}
@@ -91,6 +107,7 @@ mod tests {
 	async fn test_redis_driver() {
 		let mut cache = Cache::<RedisDriver>::new(Config {
 			redis_url: env::var("REDIS_URL").expect("REDIS_URL not set"),
+			..Default::default()
 		})
 		.await
 		.unwrap();
