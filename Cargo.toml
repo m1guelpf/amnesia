@@ -2,7 +2,7 @@
 name = "amnesia"
 edition = "2021"
 license = "MIT"
-version = "0.1.0"
+version = "0.1.1"
 readme = "README.md"
 repository = "https://github.com/m1guelpf/amnesia"
 authors = ["Miguel Piedrafita <rust@miguel.build>"]
@@ -11,11 +11,18 @@ description = "An expressive interface for interacting with a Cache."
 [dependencies]
 serde = "1.0.193"
 thiserror = "1.0.50"
+serde_json = { version = "1.0.108", optional = true }
 bitcode = { version = "0.5.0", optional = true, default-features = false, features = ["serde"] }
+ensemble = { git = "https://github.com/m1guelpf/ensemble", default-features = false, optional = true }
 
 [dev-dependencies]
 tokio = { version = "1.35.0", features = ["macros", "rt-multi-thread"] }
+ensemble = { git = "https://github.com/m1guelpf/ensemble", features = ["mysql"] }
 
 [features]
 default = ["memory"]
 memory = ["dep:bitcode"]
+database = ["dep:ensemble", "dep:serde_json"]
+
+[package.metadata.docs.rs]
+features = ["memory", "database"]
